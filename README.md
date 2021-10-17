@@ -1,4 +1,4 @@
-# Console Application README Example
+# Game of Greed 
 
 [latest open pull request](https://github.com/adhammhaydat/game-of-greed/pull/1)
 
