@@ -3,8 +3,8 @@ from game_of_greed.game_logic import GameLogic
 import pytest
 
 
-def test_version():
-    assert __version__ == '0.1.0'
+# def test_version():
+#     assert __version__ == '0.1.0'
 
 
 
@@ -45,3 +45,5 @@ def test_all_valid_dice_rolls(num_dice, expected_length):
     assert len(roll) == expected_length
     for value in roll:
         assert 1 <= value <= 6
+
+
