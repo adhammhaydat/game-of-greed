@@ -23,3 +23,4 @@ class Banker():
     def clear_shelf(self):
         pass
 # print(GameLogic.roll_dice(6))    
+# print(GameLogic.roll_dice(6))  
