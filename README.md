@@ -1,6 +1,6 @@
 # Console Application README Example
 
-[latest open pull request](https://github.com/adhammhaydat/game-of-greed/blob/main/README.md)
+[latest open pull request](https://github.com/adhammhaydat/game-of-greed/pull/1)
 
 ## About Me Quiz
 
