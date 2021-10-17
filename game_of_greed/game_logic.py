@@ -76,14 +76,30 @@ class GameLogic:
                 total +=scors[(item,occ)]  
             return total    
 class Banker():
-    def __init__(self) :
-        pass
-    def shelf(self):
-        pass
-    def banik(self):
-        pass
-    def clear_shelf(self):
-        pass
+    def __init__(self,balance=0,shelved=0) :
+        self.balance=balance
+        self.shelved=shelved
     
-test=GameLogic.roll_dice(6)
-print(GameLogic.calculate_score((5, 5, 5, 2, 2, 3)))
+    def shelf(self,point):
+        self.shelved=point
+    def bank(self):
+        self.balance=self.balance+self.shelved
+        self.clear_shelf()
+        return self.balance
+    def clear_shelf(self):
+        self.shelved=0
+
+
+
+
+# def start_game():
+#     lets_start=input("""
+#     do you want to play
+#     if yes enter y
+#     if no enter q""")
+    
+#     while lets_start !="q":
+#         number=input("input number between 1 and 6")
+#         go=GameLogic() 
+#         if 1<number>7 :
+#             pass
