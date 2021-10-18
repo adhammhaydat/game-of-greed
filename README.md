@@ -5,6 +5,8 @@
 
 [Latest pull request part 2](https://github.com/adhammhaydat/game-of-greed/pull/2)
 
+[Latest pull request part 3](https://github.com/adhammhaydat/game-of-greed/pull/3)
+
 ## About Me Quiz
 
 Lab06: Game of Greed 1
