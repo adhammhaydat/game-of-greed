@@ -1,3 +1,4 @@
+
 # Game of Greed 
 
 [latest open pull request](https://github.com/adhammhaydat/game-of-greed/pull/1)
@@ -60,6 +61,4 @@ Then run  ```Python game_of_greed.py```
 ------------------------------
 
 <!-- For more information on Markdown: https://www.markdownguide.org/cheat-sheet -->
-
-
 
