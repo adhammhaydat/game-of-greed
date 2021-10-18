@@ -2,6 +2,7 @@
 # Game of Greed 
 
 [latest open pull request part 1](https://github.com/adhammhaydat/game-of-greed/pull/1)
+
 [Latest pull request part 2](https://github.com/adhammhaydat/game-of-greed/pull/2)
 
 ## About Me Quiz
