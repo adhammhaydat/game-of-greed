@@ -60,8 +60,9 @@ Then run  ```Python game_of_greed.py```
 ### Change Log
 ***[The change log will list any changes made to the code base. This includes any changes from TA/Instructor feedback]***  
 
-1.1: The basic logic of the fame is established, this included adding classes for handling rolling the dice, calculating the shelved value and handling the shelving and banking of the balance.
-
+* 1.1: The basic logic of the fame is established, this included adding classes for handling rolling the dice, calculating the shelved value and handling the shelving and banking of the balance.
+* 1.2: Added the feature of allowing the user to shelf points, and bank the points they chose. The game now will show the use the correct info like the number of the round, the amount shelved, and the amount banked, and the total balance. The user now can either quit midgame, or avoid playing at the first place by typing the correct key.
+* 1.3: Added the get_scorers method, and extended the functionality of handling scoring all dices. Added the validate_keepers method nad now all tests pass.
 ------------------------------
 
 <!-- For more information on Markdown: https://www.markdownguide.org/cheat-sheet -->
