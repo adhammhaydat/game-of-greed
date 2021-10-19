@@ -50,14 +50,44 @@ scores = {
     (6, 6): 2400,
 }
 class GameLogic:
+    """
+    A class holding game logic related methods like calculating the score, and generating a random dice roll
+    """
     @staticmethod
     def get_scorers(test_input):
+        """
+        For filtering a tuple of choices so that only the dice that evaluates to some value is kept
+
+        Args:
+            test_input (tuple): A tuple representing a kept dice roll
+
+        Returns:
+            tuple: The dice that evaluates to something 
+        """
         return (filter(lambda x : x == 1 or x == 5,test_input))
     @staticmethod
     def roll_dice(num_dice):
+        """
+        Roll a dice a number of time based on the input
+
+        Args:
+            num_dice (Integer): The number of dice to roll
+
+        Returns:
+            tuple: A tuple representing the rolls of n dices
+        """
         return tuple(randint(1, 6) for _ in range(0, num_dice))
     @staticmethod
     def calculate_score(dice):
+        """
+        Calculate a score given a dice roll
+
+        Args:
+            dice (tuple): a tuple representing a dice roll
+
+        Returns:
+            Integer: Score of dice roll
+        """
         dice = Counter(dice)
         if len(dice) == 6:
             return 1500
@@ -70,6 +100,16 @@ class GameLogic:
             return total
     @staticmethod
     def validate_keepers(roll, keepers):
+        """
+        Check if player is cheating or if made a typo
+
+        Args:
+            roll (tuple): a tuple representing a dice roll
+            keepers (tuple): A tuple representing dice that is kept
+
+        Returns:
+            Boolean: True if valid, false otherwise
+        """
         temp = dict(Counter(roll))
         for itm in keepers:
             if itm not in temp.keys():
@@ -79,27 +119,66 @@ class GameLogic:
                 return False
         return True
 class Banker():
+    """
+    A class representing a place to hold shelved dice and banked dice
+    """
     def __init__(self):
+        """
+        The constructor method, initialize the properties balance and shelved
+        """
         self.balance = 0
         self.shelved = 0
     def shelf(self, point):
+        """
+        Add kept dice to shelf
+
+        Args:
+            point (integer): The value of kept dice
+        """
         self.shelved = point
     def bank(self):
+        """
+        Bank or add to the balance of the player when banking
+
+        Returns:
+            integer : The balance of the player
+        """
         self.balance = self.balance+self.shelved
         self.clear_shelf()
         return self.balance
     def clear_shelf(self):
+        """
+        Set the shelf to zero, reset
+        """
         self.shelved = 0
     def add_to_shelf(self,val):
+        """
+        Add to the shelf the value passed which is based on the evaluation of kept dice
+
+        Args:
+            val (integer): The amount to be shelved
+        """
         self.shelved += val
 class Game():
+    """
+    A class representing the game itself, it holds the logic necessary for the game to function
+    """
     def __init__(self):
+        """
+        The constructor method, initialize necessary properties
+        """
         self.round = 1
         self.rolls = 6
         self.cheated = False
         self.str_dice = ''
         self.on = False
     def handle_start(self):
+        """
+        Handle starting the game
+
+        Returns:
+            Banker or None : A banker instance or None if the game wont't start
+        """
         print("Welcome to Game of Greed\n(y)es to play or (n)o to decline")
         start = input('> ').lower()
         if start != 'n' and start != 'no':
@@ -107,6 +186,12 @@ class Game():
             return Banker()
         return
     def play(self, roller = GameLogic.roll_dice):
+        """
+        The method to call when you actually want to play
+
+        Args:
+            roller (function, optional): A function for generating a dice roll given an integer. Defaults to GameLogic.roll_dice.
+        """
         banker = self.handle_start()
         while self.on:
             print(f'Starting round {self.round}')
