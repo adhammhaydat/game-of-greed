@@ -1,9 +1,6 @@
-from random import gammavariate, randint
 from collections import Counter
-#from tests.flo import diff
-scors = {
-    "three_paris": 1500,
-    "stright": 1500,
+from random import gammavariate, randint
+scores = {
     # rule 1
     (1, 1): 100,
     (1, 2): 200,
@@ -52,91 +49,120 @@ scors = {
     (6, 5): 1800,
     (6, 6): 2400,
 }
-
-
 class GameLogic:
-    # game_rolls={}
-    def __init__(self):
-        pass
-
+    @staticmethod
+    def get_scorers(test_input):
+        return (filter(lambda x : x == 1 or x == 5,test_input))
     @staticmethod
     def roll_dice(num_dice):
         return tuple(randint(1, 6) for _ in range(0, num_dice))
-
     @staticmethod
     def calculate_score(dice):
         dice = Counter(dice)
-        if len(dice) == 0:
-            return 0
-        elif len(dice) == 6: 
+        if len(dice) == 6:
             return 1500
-        elif len(dice) == 3 and len(list(filter(lambda itm: itm[1] == 2, dice.items()))) == 3: 
+        elif len(dice) == 3 and len(list(filter(lambda itm: itm[1] == 2, dice.items()))) == 3:
             return 1500
         else:
             total = 0
             for item, occ in dice.items():
-                total += scors[(item, occ)]
+                total += scores[(item, occ)]
             return total
-
-
+    @staticmethod
+    def validate_keepers(roll, keepers):
+        temp = dict(Counter(roll))
+        for itm in keepers:
+            if itm not in temp.keys():
+                return False
+            temp[itm]-=1
+            if temp[itm] < 0:
+                return False
+        return True
 class Banker():
-    def __init__(self, balance=0, shelved=0):
-        self.balance = balance
-        self.shelved = shelved
-
+    def __init__(self):
+        self.balance = 0
+        self.shelved = 0
     def shelf(self, point):
         self.shelved = point
-
     def bank(self):
         self.balance = self.balance+self.shelved
         self.clear_shelf()
         return self.balance
-
     def clear_shelf(self):
         self.shelved = 0
-
+    def add_to_shelf(self,val):
+        self.shelved += val
 class Game():
-    
-    def play(self, roller = GameLogic.roll_dice):
-        print("""Welcome to Game of Greed
-(y)es to play or (n)o to decline""")
+    def __init__(self):
+        self.round = 1
+        self.rolls = 6
+        self.cheated = False
+        self.str_dice = ''
+        self.on = False
+    def handle_start(self):
+        print("Welcome to Game of Greed\n(y)es to play or (n)o to decline")
         start = input('> ').lower()
-        round = 1
         if start != 'n' and start != 'no':
-            banker = Banker()
+            self.on = True
+            return Banker()
+        return
+    def play(self, roller = GameLogic.roll_dice):
+        banker = self.handle_start()
+        while self.on:
+            print(f'Starting round {self.round}')
             while True:
-                
-                print(f'Starting round {round}')
-                print("Rolling 6 dice...")
-                dice = roller(6)
-                str_dice = ' '.join(map(str, dice))
-                print(f'*** {str_dice.strip()} ***')
+                if not self.cheated:
+                    print(f"Rolling {self.rolls} dice...")
+                dice = roller(self.rolls)
+                self.str_dice = ' '.join(map(str, dice)) if not self.cheated else self.str_dice
+                print(f'*** {self.str_dice.strip()} ***')
+                # need to check if the last roll evaluates to nothing
+                # ***************************************************
+                if not GameLogic.calculate_score(dice):
+                    print("****************************************\n**        Zilch!!! Round over         **\n****************************************")
+                    print(f"You banked {0} points in round {self.round}")
+                    print(f"Total score is {banker.balance} points")
+                    self.round += 1
+                    self.rolls = 6
+                    break
                 print('Enter dice to keep, or (q)uit:')
                 prompt = input("> ").lower()
                 if prompt == 'q' or prompt == 'quit':
-                    print(f"Thanks for playing. You earned {banker.balance} points")
-                    break 
+                    print(
+                        f"Thanks for playing. You earned {banker.balance} points")
+                    return
                 else:
-                    shelve = [int(n) for n in prompt]
-                    dice_remaining = len(dice) - len(shelve)
-                    sum_shelved = GameLogic.calculate_score(shelve)
-                    print(f"You have {sum_shelved} unbanked points and {dice_remaining} dice remaining")
+                    shelf = [int(n) for n in prompt if n != ' ']
+                    #print(shelf)
+                    # if values shelved violate what is correct continue
+                    current_dice = Counter(dice)
+                    if not GameLogic.validate_keepers(current_dice, shelf):
+                        print("Cheater!!! Or possibly made a typo...")
+                        self.cheated = True
+                        continue
+                    banker.add_to_shelf(GameLogic.calculate_score(shelf))
+                    print(
+                        f"You have {banker.shelved} unbanked points and {len(dice) - len(shelf)} dice remaining")
                     print("(r)oll again, (b)ank your points or (q)uit:")
                     prompt = input("> ")
                     if prompt == "b":
-                        banker.shelf(sum_shelved)
+                        self.rolls = len(dice) - len(shelf)
+                        print(
+                            f"You banked {banker.shelved} points in round {self.round}")
                         banker.bank()
-                        print(f"You banked {sum_shelved} points in round {round}")
                         print(f"Total score is {banker.balance} points")
-                        round+=1
-
-        else:
-            print('OK. Maybe another time')
-        
-        
-
-
-
-# if __name__ == "__main__":
-#     g = Game()
-#     g.play()
+                        self.round += 1
+                        self.rolls = 6
+                        break
+                    elif prompt == 'r':
+                        self.rolls = len(dice) - len(shelf)
+                        if not self.rolls:
+                            self.rolls = 6
+                            continue
+                        continue
+                    elif prompt == 'q':
+                        print(f"Thanks for playing. You earned {banker.balance} points")
+        print('OK. Maybe another time')
+if __name__ == "__main__":
+    g = Game()
+    g.play()
