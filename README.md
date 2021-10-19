@@ -1,21 +1,21 @@
 
 # Game of Greed 
 
-[latest open pull request part 1](https://github.com/adhammhaydat/game-of-greed/pull/1)
+[Latest open pull request part 1](https://github.com/adhammhaydat/game-of-greed/pull/1)
 
-[Latest pull request part 2](https://github.com/adhammhaydat/game-of-greed/pull/2)
+[Latest open pull request part 2](https://github.com/adhammhaydat/game-of-greed/pull/2)
 
-[Latest pull request part 3](https://github.com/adhammhaydat/game-of-greed/pull/3)
+[Latest open pull request part 3](https://github.com/adhammhaydat/game-of-greed/pull/4)
 
 ## About Me Quiz
 
 Lab06: Game of Greed 1
 
-*Author:
+Author:
 1. Hamza Ahmed
 2. Adham Mhaydat
 3. Mona Salih
-4. Murad Alkhatib*
+4. Murad Alkhatib
 
 ----
 
