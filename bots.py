@@ -5,8 +5,7 @@ at same level as pyproject.toml
 from abc import ABC, abstractmethod
 import builtins
 import re
-#from game_of_greed.game_logic import Game, GameLogic
-from game_of_greed.new_approach import  Game
+from game_of_greed.game import  Game
 from game_of_greed.game_logic import GameLogic
 
 
@@ -124,10 +123,6 @@ class BaseBot(ABC):
                 # in game system exit is fine
                 # because that's how they quit.
                 pass
-            ################################
-            with open('total_scores.txt', 'a') as f:
-                f.write(f"Total Score:  {player.total_score}\n")
-            ################################
             mega_total += player.total_score
             player.reset()
 
