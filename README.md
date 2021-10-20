@@ -5,6 +5,7 @@
 [Latest open pull request part 2](https://github.com/adhammhaydat/game-of-greed/pull/2)
 
 [Latest open pull request part 3](https://github.com/adhammhaydat/game-of-greed/pull/4)
+[Latest open pull request part 4](https://github.com/adhammhaydat/game-of-greed/pull/5)
 
 ## About Me Quiz
 
@@ -63,7 +64,7 @@ Then run `Python game_of_greed.py`
 - 1.1: The basic logic of the fame is established, this included adding classes for handling rolling the dice, calculating the shelved value and handling the shelving and banking of the balance.
 - 1.2: Added the feature of allowing the user to shelf points, and bank the points they chose. The game now will show the use the correct info like the number of the round, the amount shelved, and the amount banked, and the total balance. The user now can either quit midgame, or avoid playing at the first place by typing the correct key.
 - 1.3: Added the get_scorers method, and extended the functionality of handling scoring all dices. Added the validate_keepers method nad now all tests pass.
-
+- 1.4: Added the bot and modified the functionality of the base code, as we also integrated the bot with the code and it works just fine.
 ---
 
 ---
