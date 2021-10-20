@@ -1,47 +1,36 @@
 from collections import Counter
 from random import gammavariate, randint
 scores = {
-    # rule 1
     (1, 1): 100,
     (1, 2): 200,
     (1, 3): 1000,
     (1, 4): 2000,
     (1, 5): 3000,
     (1, 6): 4000,
-    # ________________
-    # rule 2
     (2, 1): 0,
     (2, 2): 0,
     (2, 3): 200,
     (2, 4): 400,
     (2, 5): 600,
     (2, 6): 800,
-    # ________________
-    # rule 3
     (3, 1): 0,
     (3, 2): 0,
     (3, 3): 300,
     (3, 4): 600,
     (3, 5): 900,
     (3, 6): 1200,
-    # ________________
-    # rule 4
     (4, 1): 0,
     (4, 2): 0,
     (4, 3): 400,
     (4, 4): 800,
     (4, 5): 1200,
     (4, 6): 1600,
-    # ________________
-    # rule 5
     (5, 1): 50,
     (5, 2): 100,
     (5, 3): 500,
     (5, 4): 1000,
     (5, 5): 1500,
     (5, 6): 2000,
-    # ________________
-    # rule 6
     (6, 1): 0,
     (6, 2): 0,
     (6, 3): 600,
@@ -52,7 +41,14 @@ scores = {
 class GameLogic:
     @staticmethod
     def get_scorers(test_input):
-        return (filter(lambda x : x == 1 or x == 5,test_input))
+        scorers = []
+        dice = Counter(test_input)
+        for item, occ in dice.items():
+            if scores[(item,occ)]:
+                for i in range(occ):
+                    scorers.append(item)
+        return tuple(scorers)
+        #return (filter(lambda x : x == 1 or x == 5,test_input))
     @staticmethod
     def roll_dice(num_dice):
         return tuple(randint(1, 6) for _ in range(0, num_dice))
@@ -78,12 +74,13 @@ class GameLogic:
             if temp[itm] < 0:
                 return False
         return True
+        
 class Banker():
     def __init__(self):
         self.balance = 0
         self.shelved = 0
     def shelf(self, point):
-        self.shelved = point
+        self.shelved += point
     def bank(self):
         self.balance = self.balance+self.shelved
         self.clear_shelf()
@@ -92,6 +89,7 @@ class Banker():
         self.shelved = 0
     def add_to_shelf(self,val):
         self.shelved += val
+
 class Game():
     def __init__(self):
         self.round = 1
@@ -99,15 +97,23 @@ class Game():
         self.cheated = False
         self.str_dice = ''
         self.on = False
-    def handle_start(self):
-        print("Welcome to Game of Greed\n(y)es to play or (n)o to decline")
+    # def handle_start(self):
+    #     print("Welcome to Game of Greed")
+    #     print("(y)es to play or (n)o to decline")
+    #     start = input('> ').lower()
+    #     if start != 'n' and start != 'no':
+    #         self.on = True
+    #         return Banker()
+    #     return
+    def play(self, roller = GameLogic.roll_dice):
+        print("Welcome to Game of Greed")
+        print("(y)es to play or (n)o to decline")
         start = input('> ').lower()
         if start != 'n' and start != 'no':
             self.on = True
-            return Banker()
-        return
-    def play(self, roller = GameLogic.roll_dice):
-        banker = self.handle_start()
+            banker = Banker()
+
+
         while self.on:
             print(f'Starting round {self.round}')
             while True:
@@ -132,7 +138,7 @@ class Game():
                         f"Thanks for playing. You earned {banker.balance} points")
                     return
                 else:
-                    shelf = [int(n) for n in prompt if n != ' ']
+                    shelf = [int(n) for n in prompt if n.isdigit()]
                     #print(shelf)
                     # if values shelved violate what is correct continue
                     current_dice = Counter(dice)
@@ -161,8 +167,11 @@ class Game():
                             continue
                         continue
                     elif prompt == 'q':
+                        
                         print(f"Thanks for playing. You earned {banker.balance} points")
+                        return
         print('OK. Maybe another time')
+
 if __name__ == "__main__":
     g = Game()
     g.play()
