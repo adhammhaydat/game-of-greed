@@ -21,7 +21,7 @@ def test_hot_dice():
     diffs = diff(Game().play, path="tests/version_3/hot_dice.sim.txt")
     assert not diffs, diffs
 
-@pytest.mark.xfail()
+
 def test_cheat_and_fix():
     """Cheating (or typos) should not be allowed.
     Therefore the user's input must be validated
@@ -31,7 +31,7 @@ def test_cheat_and_fix():
     diffs = diff(Game().play, path="tests/version_3/cheat_and_fix.sim.txt")
     assert not diffs, diffs
 
-@pytest.mark.xfail()
+
 def test_zilcher():
     """
     No scoring dice results in a 'zilch'

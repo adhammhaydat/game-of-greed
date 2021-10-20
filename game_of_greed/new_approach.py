@@ -85,6 +85,7 @@ class Game():
                 print("Cheater!!! Or possibly made a typo...")
                 self.handle_cheating(roller, banker)
             banker.shelf(GameLogic.calculate_score(shelf))
+            
             print(f"You have {banker.shelved} unbanked points and {len(self.dice) - len(shelf)} dice remaining")
             print("(r)oll again, (b)ank your points or (q)uit:")
             prompt = input("> ")
@@ -100,6 +101,9 @@ class Game():
                 self.outer_round(roller, banker)
                 #return
             elif prompt == 'r':
+                if GameLogic.calculate_score(shelf) == 1500:
+                    self.rolls = 6
+                    self.inner_round(roller, banker)
                 self.rolls = len(self.dice) - len(shelf)
                 self.inner_round(roller, banker)
             elif prompt == 'q' or prompt == 'quit':
