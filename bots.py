@@ -149,8 +149,6 @@ class NervousNellie(BaseBot):
         else:
             return 'r'
         
-        
-
 class Einstein(BaseBot):
     def _roll_bank_or_quit(self):
         """your logic here"""

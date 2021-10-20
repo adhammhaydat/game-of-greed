@@ -6,8 +6,20 @@ from collections import Counter
 from random import gammavariate, randint
 
 class GameLogic:
+    """
+    A class holding methods for handling game logic like calculations and handling dice rolls
+    """
     @staticmethod
     def get_scorers(test_input):
+        """
+        Checks for the dice that evaluates to something
+
+        Args:
+            test_input (tuple): The dice to check
+
+        Returns:
+            tuple : The dice that actually evaluates to something
+        """
         scorers = []
         dice = Counter(test_input)
         for item, occ in dice.items():
@@ -18,9 +30,27 @@ class GameLogic:
         #return (filter(lambda x : x == 1 or x == 5,test_input))
     @staticmethod
     def roll_dice(num_dice):
+        """
+        Generate a dice roll given a number of rolls
+
+        Args:
+            num_dice (int): The number of dice to roll
+
+        Returns:
+            tuple : a set of dice
+        """
         return tuple(randint(1, 6) for _ in range(0, num_dice))
     @staticmethod
     def calculate_score(dice):
+        """
+        To calculate the value of a dice
+
+        Args:
+            dice (tuple): a tuple of dice
+
+        Returns:
+            int : the value of the dice
+        """
         dice = Counter(dice)
         if len(dice) == 6:
             return 1500
@@ -33,6 +63,16 @@ class GameLogic:
             return total
     @staticmethod
     def validate_keepers(roll, keepers):
+        """
+        Similar to get scorers, but also used to check if player is cheating
+
+        Args:
+            roll (tuple): The actual dice
+            keepers (tuple): The dice kept or shelved
+
+        Returns:
+            boolean : True if the kept dice is valid False otherwise
+        """
         temp = dict(Counter(roll))
         for itm in keepers:
             if itm not in temp.keys():
@@ -43,11 +83,23 @@ class GameLogic:
         return True
 
 class Quit(Exception):
+    """
+    A custom exception, just for navigation purposes
+
+    Args:
+        Exception (Class): Exception
+    """
     pass
 
 class Game():
+    """
+    A class holding the logic necessary for the game to function
+    """
 
     def __init__(self):
+        """
+        The constructor method
+        """
         self.round = 1
         self.rolls = 6
         self.dice = ()
@@ -56,11 +108,25 @@ class Game():
         self.quit = False
 
     def outer_round(self, roller, banker):
+        """
+        A function for handling the part concerned with starting new rounds.
+
+        Args:
+            roller (function): The function that takes a number and returns a tuple of random dices.
+            banker (Banker): For handling banking and shelving of points
+        """
         print(f"Starting round {self.round}")
         self.inner_round(roller, banker)
             
 
     def inner_round(self, roller, banker):
+        """
+        For handling the inner part of a round, all cases that might happen in a round
+
+        Args:
+            roller (function): The function that takes a number and returns a tuple of random dices.
+            banker (Banker): For handling banking and shelving of points
+        """
         self.dice = roller(self.rolls)
         self.dice_str = ' '.join(map(str, self.dice))
         print(f"Rolling {self.rolls} dice...")
@@ -69,6 +135,16 @@ class Game():
 
                 
     def handle_cheating(self, roller, banker):
+        """
+        A nested part of a round that handles the alternative path when the user cheats or makes a typo
+
+        Args:
+            roller (function): The function that takes a number and returns a tuple of random dices.
+            banker (Banker): For handling banking and shelving of points
+
+        Raises:
+            Quit: A custom exception just for navigating to a certain level.
+        """
         print(f'*** {self.dice_str.strip()} ***')
         self.check_zilch(roller,banker)
         print('Enter dice to keep, or (q)uit:')
@@ -111,6 +187,13 @@ class Game():
                 raise Quit
 
     def check_zilch(self,roller,banker):
+        """
+        For handling a zilch case
+
+        Args:
+            roller (function): The function that takes a number and returns a tuple of random dices.
+            banker (Banker): For handling banking and shelving of points
+        """
         if not GameLogic.calculate_score(self.dice):
             print("****************************************\n**        Zilch!!! Round over         **\n****************************************")
             print(f"You banked {0} points in round {self.round}")
@@ -120,6 +203,12 @@ class Game():
             self.outer_round(roller,banker)
 
     def play(self, roller = GameLogic.roll_dice):
+        """
+        The main function for starting the game
+
+        Args:
+            roller (function, optional): The function that takes a number and returns a tuple of random dices. Defaults to GameLogic.roll_dice.
+        """
         print("Welcome to Game of Greed")
         print("(y)es to play or (n)o to decline")
         start = input('> ').lower()
