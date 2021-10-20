@@ -11,8 +11,6 @@ from game_of_greed.game_logic import GameLogic
 
 class BaseBot(ABC):
     """Base class for Game of Greed bots"""
-    #counter = 0
-    #total_score = 0
     def __init__(self, print_all=False):
         self.last_print = ""
         self.last_roll = []
@@ -147,16 +145,21 @@ class NervousNellie(BaseBot):
 class Einstein(BaseBot):
     def _roll_bank_or_quit(self):
         """your logic here"""
-        return "b"
+        if self.dice_remaining <= 1:
+            self.counter +=1
+            return "b"
+        elif self.counter >= 60:
+            return 'q'
+        else:
+            return 'r'
 
     def _enter_dice(self):
         """simulate user entering which dice to keep.
         Defaults to all scoring dice"""
-
+        # keep it the same
         return super()._enter_dice()
 
 
 if __name__ == "__main__":
     num_games = 100
-    #NervousNellie.play(num_games)
     Einstein.play(num_games)

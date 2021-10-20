@@ -98,9 +98,7 @@ class Game():
                 print(f"Total score is {banker.balance} points")
                 self.round += 1
                 self.rolls = 6
-                #self.banked = True  
                 self._outer_round(roller, banker)
-                #return
             elif prompt == 'r':
                 if GameLogic.calculate_score(shelf) == 1500:
                     self.rolls = 6
