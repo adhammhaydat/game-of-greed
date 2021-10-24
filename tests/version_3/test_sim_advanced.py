@@ -1,7 +1,7 @@
 import pytest
 from tests.flo import diff
-from game_of_greed.game_logic import Game
-
+#from game_of_greed.game_logic import Game
+from game_of_greed.game import Game
 
 
 pytestmark = [pytest.mark.version_3]
@@ -10,7 +10,7 @@ pytestmark = [pytest.mark.version_3]
 def test_repeat_roller():
     """Allow setting aside scoring dice and rolling the rest
     """
-    diffs = diff(Game().play, path="repeat_roller.sim.txt")
+    diffs = diff(Game().play, path="tests/version_3/repeat_roller.sim.txt")
     assert not diffs, diffs
 
 
@@ -18,7 +18,7 @@ def test_hot_dice():
     """When all dice are used without a zilch
     then user gets 6 fresh dice and continues turn.
     """
-    diffs = diff(Game().play, path="hot_dice.sim.txt")
+    diffs = diff(Game().play, path="tests/version_3/hot_dice.sim.txt")
     assert not diffs, diffs
 
 
@@ -28,7 +28,7 @@ def test_cheat_and_fix():
     If invalid prompt user for re-entry
     """
 
-    diffs = diff(Game().play, path="cheat_and_fix.sim.txt")
+    diffs = diff(Game().play, path="tests/version_3/cheat_and_fix.sim.txt")
     assert not diffs, diffs
 
 
@@ -39,6 +39,6 @@ def test_zilcher():
     and ends turn
     """
 
-    diffs = diff(Game().play, path="zilcher.sim.txt")
+    diffs = diff(Game().play, path="tests/version_3/zilcher.sim.txt")
     assert not diffs, diffs
     
